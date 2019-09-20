@@ -1,0 +1,19 @@
+.todoList {
+  position: relative;
+
+  width: 300px;
+  margin: 10px;
+  padding: 10px;
+
+  border: 2px solid darkblue;
+}
+
+.deleteButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+
+  padding: 5px 10px;
+
+  composes: btn from "../index.css";
+}

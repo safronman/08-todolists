@@ -1,5 +1,6 @@
 import React from 'react';
-import './App.css';
+import '../App.css';
+import styles from './TodoListTask.module.css';
 
 class TodoListTask extends React.Component {
 
@@ -33,7 +34,7 @@ class TodoListTask extends React.Component {
         let containerCssClass = this.props.task.isDone ? "todoList-task done" : "todoList-task";
 
         return (
-            <>
+            <div className={styles.wrapper}>
                 <div className={containerCssClass}>
                     <input type="checkbox" checked={this.props.task.isDone}
                            onChange={this.onIsDoneChanged}/>
@@ -43,8 +44,8 @@ class TodoListTask extends React.Component {
                         : <span onClick={this.activateEditMode}>{this.props.task.id} - {this.props.task.title}</span>
                     }, priority: {this.props.task.priority}
                 </div>
-                <button  onClick={this.onDelTaskClick}>del</button>
-            </>
+                <button className={styles.delBtnTask} onClick={this.onDelTaskClick}>x</button>
+            </div>
         );
     }
 }

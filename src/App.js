@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
-import TodoList from "./TodoList";
-import AddNewItemForm from "./AddNewItemForm";
+import TodoList from "./TodoList/TodoList";
+import AddNewItemForm from "./AddNewItemForm/AddNewItemForm";
 import {connect} from "react-redux";
 import {addTodolistAC} from "./Redux/todolistReducer";
 

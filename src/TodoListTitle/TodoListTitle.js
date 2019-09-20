@@ -1,10 +1,10 @@
 import React from 'react';
-import './App.css';
+import styles from "./TodoListTitle.module.css"
 
 class TodoListTitle extends React.Component {
    render = () => {
         return (
-                <h3 className="todoList-header__title">{this.props.title}</h3>
+                <h3 className={styles.todolistTitle}>{this.props.title}</h3>
         );
     }
 }

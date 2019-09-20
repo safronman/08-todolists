@@ -1,12 +1,12 @@
 import React from 'react';
-import './App.css';
-import TodoListTasks from "./TodoListTasks";
-import TodoListFooter from "./TodoListFooter";
-import TodoListTitle from "./TodoListTitle";
-import AddNewItemForm from "./AddNewItemForm";
+import '../App.css';
+import TodoListTasks from "../TodoListTasks";
+import TodoListFooter from "../TodoListFooter";
+import TodoListTitle from "../TodoListTitle/TodoListTitle";
+import AddNewItemForm from "../AddNewItemForm/AddNewItemForm";
 import {connect} from "react-redux";
 import styles from "./Todolist.module.css";
-import {addTaskAC, changeTaskAC, deleteTaskAC, deleteTodolistAC} from "./Redux/todolistReducer";
+import {addTaskAC, changeTaskAC, deleteTaskAC, deleteTodolistAC} from "../Redux/todolistReducer";
 
 class TodoList extends React.Component {
 
@@ -52,11 +52,11 @@ class TodoList extends React.Component {
     render = () => {
         return (
             <div className={styles.todoList}>
+                <button className={styles.deleteButton} onClick={this.onDeleteTodo}>x</button>
                 <div className="todoList-header">
                     <TodoListTitle title={this.props.title}/>
                     <AddNewItemForm addItem={this.addTask}/>
                 </div>
-
                 <TodoListTasks changeStatus={this.changeStatus}
                                changeTitle={this.changeTitle}
                                deleteTask={this.deleteTask}
@@ -72,7 +72,6 @@ class TodoList extends React.Component {
                                    }
                                })}/>
                 <TodoListFooter changeFilter={this.changeFilter} filterValue={this.state.filterValue}/>
-                <button className={styles.deleteButton} onClick={this.onDeleteTodo}>Delete todolist</button>
             </div>
         );
     }
