@@ -1,5 +1,12 @@
-import {createStore} from "redux";
+// CONSTANTS
+const ADD_TODO = 'todolist/todolistReducer/ADD_TODO';
+const ADD_TASK = 'todolist/todolistReducer/ADD_TASK';
+const CHANGE_TASK = 'todolist/todolistReducer/CHANGE_TASK';
+const DELETE_TODO = 'todolist/todolistReducer/DELETE_TODO';
+const DELETE_TASK = 'todolist/todolistReducer/DELETE_TASK';
 
+
+// INITIAL STATE
 const initialState = {
     todolists: [
         {
@@ -7,35 +14,22 @@ const initialState = {
             title: "1 todo",
             tasks: [
                 {id: 0, title: "1", isDone: false, priority: "low"},
-                {id: 1, title: "2", isDone: false, priority: "low"}
-            ]
-        },
-        {
-            id: 1, title: "2 todo",
-            tasks: [
-                {id: 0, title: "a", isDone: false, priority: "low"},
-                {id: 1, title: "b", isDone: false, priority: "low"}
-            ]
-        },
-        {
-            id: 2, title: "3 todo",
-            tasks: [
-                {id: 0, title: "x", isDone: false, priority: "low"},
-                {id: 1, title: "y", isDone: false, priority: "low"}
             ]
         }
     ]
 };
 
-const reducer = (state = initialState, action) => {
+
+// REDUCER
+const todolistReducer = (state = initialState, action) => {
     switch (action.type) {
-        case 'ADD_TODO':
+        case ADD_TODO:
             return {
                 ...state,
                 todolists: [...state.todolists, action.newTodo]
             };
 
-        case 'ADD_TASK':
+        case ADD_TASK:
             return {
                 ...state,
                 todolists: state.todolists.map((item) => {
@@ -47,7 +41,7 @@ const reducer = (state = initialState, action) => {
                 })
             };
 
-        case 'CHANGE_TASK':
+        case CHANGE_TASK:
             return {
                 ...state,
                 todolists: state.todolists.map(item => {
@@ -68,7 +62,7 @@ const reducer = (state = initialState, action) => {
                 })
             };
 
-        case 'DELETE_TODO':
+        case DELETE_TODO:
             return {
                 ...state,
                 todolists: state.todolists.filter((item) => {
@@ -76,7 +70,7 @@ const reducer = (state = initialState, action) => {
                 })
             };
 
-        case 'DELETE_TASK':
+        case DELETE_TASK:
             return {
                 ...state,
                 todolists: state.todolists.map((item) => {
@@ -97,5 +91,12 @@ const reducer = (state = initialState, action) => {
     }
 };
 
-let store = createStore(reducer);
-export default store
+export default todolistReducer
+
+
+// ACTION CREATORS
+export const addTodolistAC = (newTodo)=> ({type: ADD_TODO, newTodo});
+export const addTaskAC = (todolistID, newTask)=> ({type: ADD_TASK, todolistID, newTask});
+export const changeTaskAC = (todolistID, taskId, obj)=> ({type: CHANGE_TASK, todolistID, taskId, obj});
+export const deleteTodolistAC = (todolistID)=> ({type: DELETE_TODO, todolistID});
+export const deleteTaskAC = (todolistID, taskId)=> ({type: DELETE_TASK, todolistID, taskId});
