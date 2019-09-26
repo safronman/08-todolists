@@ -1,0 +1,11 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.delBtnTask {
+  padding: 0 10px;
+
+  composes: btn from "../index.css";
+}
