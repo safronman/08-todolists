@@ -3,24 +3,37 @@ import './App.css';
 import TodoList from "./TodoList/TodoList";
 import AddNewItemForm from "./AddNewItemForm/AddNewItemForm";
 import {connect} from "react-redux";
-import {addTodolistAC} from "./Redux/todolistReducer";
+import {addTodolist, setTodolists} from "./Redux/todolistReducer";
+import axios from "axios";
 
 class App extends React.Component {
 
-    nextTodoListId = 1;
+    componentDidMount() {
+        this.restoreState()
+    }
+
+    restoreState = () => {
+        axios.get("https://social-network.samuraijs.com/api/1.0/todo-lists", {withCredentials: true})
+            .then(res => {
+                this.props.setTodolists(res.data)
+            });
+    };
 
     addTodoList = (title) => {
-        let newTodoList = {
-            id: this.nextTodoListId,
-            title: title,
-            tasks: []
-        };
-        this.nextTodoListId++;
-        this.props.addTodolist(newTodoList);
+        axios.post("https://social-network.samuraijs.com/api/1.0/todo-lists",
+            {title: title},
+            {
+                withCredentials: true,
+                headers: {"API-KEY": "794181ab-6d62-4cfb-bc9f-d539dfac55f1"}
+            })
+            .then(res => {
+                this.props.addTodolist(res.data.data.item)
+            })
     };
 
     render = () => {
-        const todolists = this.props.todolists.map(tl => <TodoList key={tl.id} id={tl.id} title={tl.title} tasks={tl.tasks}/>);
+        const todolists = this.props.todolists.map(tl => <TodoList key={tl.id} id={tl.id} title={tl.title}
+                                                                   tasks={tl.tasks}/>);
         return (
             <>
                 <div>
@@ -40,13 +53,6 @@ const mapStateToProps = (state) => {
     }
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        addTodolist: (newTodo) => {
-            dispatch(addTodolistAC(newTodo));
-        }
-    }
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, {addTodolist, setTodolists})(App);
 

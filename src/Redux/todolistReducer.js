@@ -4,19 +4,13 @@ const ADD_TASK = 'todolist/todolistReducer/ADD_TASK';
 const CHANGE_TASK = 'todolist/todolistReducer/CHANGE_TASK';
 const DELETE_TODO = 'todolist/todolistReducer/DELETE_TODO';
 const DELETE_TASK = 'todolist/todolistReducer/DELETE_TASK';
+const SET_TODOLISTS = 'todolist/todolistReducer/SET_TODOLISTS';
+const SET_TASKS = 'todolist/todolistReducer/SET_TASKS';
 
 
 // INITIAL STATE
 const initialState = {
-    todolists: [
-        {
-            id: 0,
-            title: "1 todo",
-            tasks: [
-                {id: 0, title: "1", isDone: false, priority: "low"},
-            ]
-        }
-    ]
+    todolists: []
 };
 
 
@@ -42,6 +36,7 @@ const todolistReducer = (state = initialState, action) => {
             };
 
         case CHANGE_TASK:
+            debugger
             return {
                 ...state,
                 todolists: state.todolists.map(item => {
@@ -86,6 +81,25 @@ const todolistReducer = (state = initialState, action) => {
                 })
             };
 
+        case SET_TODOLISTS:
+            return {
+                ...state,
+                todolists: action.todolists.map(tl => {
+                    return {...tl, tasks: []}
+                })
+            };
+
+        case SET_TASKS:
+            return {
+                ...state,
+                todolists: state.todolists.map(tl => {
+                    if (tl.id === action.todolistID) {
+                        return {...tl, tasks: action.tasks}
+                    } else { return tl}
+                })
+            };
+
+
         default:
             return state
     }
@@ -95,8 +109,10 @@ export default todolistReducer
 
 
 // ACTION CREATORS
-export const addTodolistAC = (newTodo)=> ({type: ADD_TODO, newTodo});
-export const addTaskAC = (todolistID, newTask)=> ({type: ADD_TASK, todolistID, newTask});
-export const changeTaskAC = (todolistID, taskId, obj)=> ({type: CHANGE_TASK, todolistID, taskId, obj});
-export const deleteTodolistAC = (todolistID)=> ({type: DELETE_TODO, todolistID});
-export const deleteTaskAC = (todolistID, taskId)=> ({type: DELETE_TASK, todolistID, taskId});
+export const addTodolist = (newTodo) => ({type: ADD_TODO, newTodo});
+export const addTask = (todolistID, newTask) => ({type: ADD_TASK, todolistID, newTask});
+export const changeTask = (taskId, obj, todolistID) => ({type: CHANGE_TASK, taskId, obj, todolistID});
+export const deleteTodo = (todolistID) => ({type: DELETE_TODO, todolistID});
+export const deleteTask = (todolistID, taskId) => ({type: DELETE_TASK, todolistID, taskId});
+export const setTodolists = (todolists) => ({type: SET_TODOLISTS, todolists});
+export const setTasks = (todolistID, tasks) => ({type: SET_TASKS, todolistID, tasks});
