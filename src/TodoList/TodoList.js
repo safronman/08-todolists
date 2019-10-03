@@ -11,9 +11,9 @@ import {
     changeTask,
     deleteTask,
     deleteTodo,
-    setTasks
+    setTasks, updateTodolistTitle
 } from "../Redux/todolistReducer";
-import axios from "axios";
+import {api} from "../Api/api";
 
 class TodoList extends React.Component {
 
@@ -26,23 +26,14 @@ class TodoList extends React.Component {
     }
 
     restoreTasks = () => {
-        axios.get(`https://social-network.samuraijs.com/api/1.0/todo-lists/${this.props.id}/tasks`,
-            {
-                withCredentials: true,
-                headers: {"API-KEY": "794181ab-6d62-4cfb-bc9f-d539dfac55f1"}
-            })
+        api.getTasks(this.props.id)
             .then(res => {
                 this.props.setTasks(this.props.id, res.data.items)
             });
     };
 
-    addTask = (newText) => {
-        axios.post(`https://social-network.samuraijs.com/api/1.0/todo-lists/${this.props.id}/tasks`,
-            {title: newText},
-            {
-                withCredentials: true,
-                headers: {"API-KEY": "794181ab-6d62-4cfb-bc9f-d539dfac55f1"}
-            })
+    addTask = (newTaskTitle) => {
+        api.createTask(newTaskTitle, this.props.id)
             .then(res => {
                 this.props.addTask(this.props.id, res.data.data.item)
             })
@@ -55,7 +46,6 @@ class TodoList extends React.Component {
     };
 
     changeStatus = (taskId, status) => {
-        debugger
         this.changeTask(taskId, {status})
     };
 
@@ -64,32 +54,21 @@ class TodoList extends React.Component {
     };
 
     changeTask = (taskId, obj) => {
-        debugger
         let changedTask = this.props.tasks.find(task => {
             return task.id === taskId
         });
         let task = {...changedTask, ...obj};
 
-        axios.put(`https://social-network.samuraijs.com/api/1.0/todo-lists/tasks`, task,
-            {
-                withCredentials: true,
-                headers: {"API-KEY": "794181ab-6d62-4cfb-bc9f-d539dfac55f1"}
-            })
+        api.updateTask(task)
             .then(res => {
-                debugger
-                if (res.data.resultCode === 0 ) {
+                if (res.data.resultCode === 0) {
                     this.props.changeTask(taskId, obj, this.props.id)
                 }
             })
     };
 
-
     onDeleteTodo = () => {
-        axios.delete(`https://social-network.samuraijs.com/api/1.0/todo-lists/${this.props.id}`,
-            {
-                withCredentials: true,
-                headers: {"API-KEY": "794181ab-6d62-4cfb-bc9f-d539dfac55f1"}
-            })
+        api.deleteTodolist(this.props.id)
             .then(res => {
                 if (res.data.resultCode === 0) {
                     this.props.deleteTodo(this.props.id)
@@ -98,11 +77,7 @@ class TodoList extends React.Component {
     };
 
     deleteTask = (taskId) => {
-        axios.delete(`https://social-network.samuraijs.com/api/1.0/todo-lists/tasks/${taskId}`,
-            {
-                withCredentials: true,
-                headers: {"API-KEY": "794181ab-6d62-4cfb-bc9f-d539dfac55f1"}
-            })
+        api.deleteTask(taskId)
             .then(res => {
                 if (res.data.resultCode === 0) {
                     this.props.deleteTask(this.props.id, taskId)
@@ -117,14 +92,13 @@ class TodoList extends React.Component {
             <div className={styles.todoList}>
                 <button className={styles.deleteButton} onClick={this.onDeleteTodo}>x</button>
                 <div className="todoList-header">
-                    <TodoListTitle title={this.props.title}/>
+                    <TodoListTitle title={this.props.title} id={this.props.id} updateTodolistTitle={this.props.updateTodolistTitle}/>
                     <AddNewItemForm addItem={this.addTask}/>
                 </div>
                 <TodoListTasks changeStatus={this.changeStatus}
                                changeTitle={this.changeTitle}
                                deleteTask={this.deleteTask}
                                tasks={tasks.filter(t => {
-                                   debugger
                                    if (this.state.filterValue === "All") {
                                        return true;
                                    }
@@ -132,7 +106,7 @@ class TodoList extends React.Component {
                                        return t.status === 0;
                                    }
                                    if (this.state.filterValue === "Completed") {
-                                       return  t.status === 2;
+                                       return t.status === 2;
                                    }
                                })}/>
                 <TodoListFooter changeFilter={this.changeFilter} filterValue={this.state.filterValue}/>
@@ -141,6 +115,4 @@ class TodoList extends React.Component {
     }
 }
 
-
-export default connect(null, {addTask, changeTask, deleteTodo, deleteTask, setTasks})(TodoList);
-
+export default connect(null, {addTask, changeTask, deleteTodo, deleteTask, setTasks, updateTodolistTitle})(TodoList);

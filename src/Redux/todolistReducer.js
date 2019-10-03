@@ -6,6 +6,7 @@ const DELETE_TODO = 'todolist/todolistReducer/DELETE_TODO';
 const DELETE_TASK = 'todolist/todolistReducer/DELETE_TASK';
 const SET_TODOLISTS = 'todolist/todolistReducer/SET_TODOLISTS';
 const SET_TASKS = 'todolist/todolistReducer/SET_TASKS';
+const UPDATE_TODOLIST_TITLE = 'todolist/todolistReducer/UPDATE_TODOLIST_TITLE';
 
 
 // INITIAL STATE
@@ -20,7 +21,7 @@ const todolistReducer = (state = initialState, action) => {
         case ADD_TODO:
             return {
                 ...state,
-                todolists: [...state.todolists, action.newTodo]
+                todolists: [action.newTodo, ...state.todolists]
             };
 
         case ADD_TASK:
@@ -28,7 +29,7 @@ const todolistReducer = (state = initialState, action) => {
                 ...state,
                 todolists: state.todolists.map((item) => {
                     if (item.id === action.todolistID) {
-                        return {...item, tasks: [...item.tasks, action.newTask]}
+                        return {...item, tasks: [action.newTask, ...item.tasks]}
                     } else {
                         return item
                     }
@@ -36,7 +37,6 @@ const todolistReducer = (state = initialState, action) => {
             };
 
         case CHANGE_TASK:
-            debugger
             return {
                 ...state,
                 todolists: state.todolists.map(item => {
@@ -100,6 +100,17 @@ const todolistReducer = (state = initialState, action) => {
             };
 
 
+        case UPDATE_TODOLIST_TITLE:
+            return {
+                ...state,
+                todolists: state.todolists.map(tl => {
+                    if (tl.id === action.todoListID) {
+                        return {...tl, title: action.newTodolistTitle}
+                    } else { return tl}
+                })
+            };
+
+
         default:
             return state
     }
@@ -116,3 +127,4 @@ export const deleteTodo = (todolistID) => ({type: DELETE_TODO, todolistID});
 export const deleteTask = (todolistID, taskId) => ({type: DELETE_TASK, todolistID, taskId});
 export const setTodolists = (todolists) => ({type: SET_TODOLISTS, todolists});
 export const setTasks = (todolistID, tasks) => ({type: SET_TASKS, todolistID, tasks});
+export const updateTodolistTitle = (todoListID, newTodolistTitle) => ({type: UPDATE_TODOLIST_TITLE, todoListID, newTodolistTitle});
