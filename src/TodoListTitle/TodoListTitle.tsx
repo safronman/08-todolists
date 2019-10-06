@@ -1,8 +1,22 @@
 import React from 'react';
-import styles from "./TodoListTitle.module.css"
 import {api} from "../Api/api";
+const styles = require('./TodoListTitle.module.css');
+// import styles from "./TodoListTitle.module.css"
 
-class TodoListTitle extends React.Component {
+
+interface IProps {
+    title: string,
+    id: string,
+    updateTodolistTitle: Function
+}
+
+interface IState {
+    editMode: boolean,
+    todolistTitle: string
+}
+
+
+class TodoListTitle extends React.Component<IProps, IState> {
 
     state = {
         editMode: false,
@@ -13,7 +27,7 @@ class TodoListTitle extends React.Component {
         this.setState({editMode: true})
     };
 
-    onTodolistTitleChange = (e) => {
+    onTodolistTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({todolistTitle: e.currentTarget.value})
     };
 

@@ -1,11 +1,5 @@
+
 import React from 'react';
-import '../App.css';
-import TodoListTasks from "../TodoListTasks";
-import TodoListFooter from "../TodoListFooter";
-import TodoListTitle from "../TodoListTitle/TodoListTitle";
-import AddNewItemForm from "../AddNewItemForm/AddNewItemForm";
-import {connect} from "react-redux";
-import styles from "./Todolist.module.css";
 import {
     addTask,
     changeTask,
@@ -14,11 +8,38 @@ import {
     setTasks, updateTodolistTitle
 } from "../Redux/todolistReducer";
 import {api} from "../Api/api";
+import '../App.css';
+import TodoListTasks from "../TodoListTasks";
+import TodoListFooter from "../TodoListFooter";
+import TodoListTitle from "../TodoListTitle/TodoListTitle";
+import AddNewItemForm from "../AddNewItemForm/AddNewItemForm";
+import {connect} from "react-redux";
+const styles = require('./Todolist.module.css');
+// import styles from "./Todolist.module.css";
 
-class TodoList extends React.Component {
+
+interface IProps {
+    setTasks: Function,
+    addTask: Function,
+    changeTask: Function,
+    deleteTodo: Function,
+    deleteTask: Function,
+    updateTodolistTitle: Function
+    id: string,
+    tasks: any[],
+    title: string
+
+}
+
+interface IState {
+    filterValue: string
+}
+
+
+class TodoList extends React.Component<IProps, IState> {
 
     state = {
-        filterValue: "All",
+        filterValue: "All"
     };
 
     componentDidMount() {
@@ -32,28 +53,28 @@ class TodoList extends React.Component {
             });
     };
 
-    addTask = (newTaskTitle) => {
+    addTask = (newTaskTitle: string) => {
         api.createTask(newTaskTitle, this.props.id)
             .then(res => {
                 this.props.addTask(this.props.id, res.data.data.item)
             })
     };
 
-    changeFilter = (newFilterValue) => {
+    changeFilter = (newFilterValue: string) => {
         this.setState({
             filterValue: newFilterValue
         });
     };
 
-    changeStatus = (taskId, status) => {
+    changeStatus = (taskId: string, status: string) => {
         this.changeTask(taskId, {status})
     };
 
-    changeTitle = (taskId, title) => {
+    changeTitle = (taskId: string, title: string) => {
         this.changeTask(taskId, {title: title})
     };
 
-    changeTask = (taskId, obj) => {
+    changeTask = (taskId: string, obj: any) => {
         let changedTask = this.props.tasks.find(task => {
             return task.id === taskId
         });
@@ -76,7 +97,7 @@ class TodoList extends React.Component {
             })
     };
 
-    deleteTask = (taskId) => {
+    deleteTask = (taskId: string) => {
         api.deleteTask(taskId)
             .then(res => {
                 if (res.data.resultCode === 0) {

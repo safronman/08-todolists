@@ -2,7 +2,14 @@ import React from 'react';
 import './App.css';
 import TodoListTask from "./TodoListTask/TodoListTask";
 
-class TodoListTasks extends React.Component {
+interface IProps {
+    tasks: any[],
+    changeStatus: Function,
+    changeTitle: Function,
+    deleteTask: Function
+}
+
+class TodoListTasks extends React.Component<IProps> {
     render = () => {
 
         let tasksElements = this.props.tasks.map(task => <TodoListTask key={task.id} task={task}

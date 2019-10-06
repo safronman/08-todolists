@@ -1,8 +1,19 @@
 import React from 'react';
 import '../App.css';
-import styles from "./AddNewItemForm.module.css"
+const styles = require('./AddNewItemForm.module.css');
+// import styles from "./AddNewItemForm.module.css";
 
-class AddNewItemForm extends React.Component {
+interface IProps {
+    addItem: Function
+}
+
+interface IState {
+    error: boolean,
+    title: string
+}
+
+
+class AddNewItemForm extends React.Component<IProps, IState> {
     state = {
         error: false,
         title: ""

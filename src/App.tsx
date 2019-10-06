@@ -6,7 +6,13 @@ import {connect} from "react-redux";
 import {addTodolist, setTodolists} from "./Redux/todolistReducer";
 import {api} from "./Api/api";
 
-class App extends React.Component {
+interface IProps {
+    setTodolists: Function,
+    addTodolist: Function,
+    todolists: any[]
+}
+
+class App extends React.Component<IProps> {
 
     componentDidMount() {
         api.getTodolists()
@@ -15,7 +21,7 @@ class App extends React.Component {
             });
     }
 
-    addTodoList = (todolistTitle) => {
+    addTodoList = (todolistTitle: string) => {
         api.createTodolist(todolistTitle)
             .then(res => {
                 this.props.addTodolist(res.data.data.item)
@@ -38,7 +44,7 @@ class App extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: any) => {
     return {
         todolists: state.todolists
     }

@@ -1,8 +1,21 @@
 import React from 'react';
 import '../App.css';
-import styles from './TodoListTask.module.css';
+const styles = require('./TodoListTask.module.css');
+// import styles from './TodoListTask.module.css';
 
-class TodoListTask extends React.Component {
+interface IProps {
+    task: any,
+    changeStatus: Function,
+    changeTitle: Function,
+    deleteTask: Function,
+}
+
+interface IState {
+    editMode: boolean,
+    taskTitle: string
+}
+
+class TodoListTask extends React.Component<IProps, IState> {
 
     state = {
         editMode: false,
