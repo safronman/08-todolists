@@ -1,8 +1,6 @@
 import React from 'react';
 import {api} from "../Api/api";
-const styles = require('./TodoListTitle.module.css');
-// import styles from "./TodoListTitle.module.css"
-
+import styles from "./TodoListTitle.module.css"
 
 interface IProps {
     title: string;
@@ -14,7 +12,6 @@ interface IState {
     editMode: boolean;
     todolistTitle: string;
 }
-
 
 class TodoListTitle extends React.Component<IProps, IState> {
 
@@ -35,7 +32,7 @@ class TodoListTitle extends React.Component<IProps, IState> {
         this.setState({editMode: false});
         api.updateTodolistTitle(this.props.id, this.state.todolistTitle)
             .then((res) => {
-                if (res.data.resultCode === 0 ) {
+                if (res.data.resultCode === 0) {
                     this.props.updateTodolistTitle(this.props.id, this.state.todolistTitle)
                 }
             })

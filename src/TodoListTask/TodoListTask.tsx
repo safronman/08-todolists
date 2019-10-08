@@ -1,8 +1,7 @@
 import React from 'react';
 import '../App.css';
 import {ITask} from "../types/entities";
-const styles = require('./TodoListTask.module.css');
-// import styles from './TodoListTask.module.css';
+import styles from './TodoListTask.module.css';
 
 interface IProps {
     task: ITask;

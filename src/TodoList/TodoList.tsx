@@ -14,8 +14,7 @@ import TodoListTitle from "../TodoListTitle/TodoListTitle";
 import AddNewItemForm from "../AddNewItemForm/AddNewItemForm";
 import {connect} from "react-redux";
 import {IChangeTaskObj, ITask} from "../types/entities";
-const styles = require('./Todolist.module.css');
-// import styles from "./Todolist.module.css";
+import styles from "./Todolist.module.css";
 
 
 interface IProps {

@@ -1,7 +1,6 @@
 import React from 'react';
 import '../App.css';
-const styles = require('./AddNewItemForm.module.css');
-// import styles from "./AddNewItemForm.module.css";
+import styles from "./AddNewItemForm.module.css";
 
 interface IProps {
     addItem: Function;
