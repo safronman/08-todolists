@@ -1,88 +1,58 @@
 import {ITask, ITodo, IChangeTaskObj} from "../types/entities";
+import {api} from "../Api/api";
+import {AppActions, ITodolist} from "../types/actions";
+import {Dispatch} from "redux";
+import { AppState } from "./store";
 
 // CONSTANTS
-const ADD_TODO = 'todolist/todolistReducer/ADD_TODO';
-const ADD_TASK = 'todolist/todolistReducer/ADD_TASK';
-const CHANGE_TASK = 'todolist/todolistReducer/CHANGE_TASK';
-const DELETE_TODO = 'todolist/todolistReducer/DELETE_TODO';
-const DELETE_TASK = 'todolist/todolistReducer/DELETE_TASK';
-const SET_TODOLISTS = 'todolist/todolistReducer/SET_TODOLISTS';
-const SET_TASKS = 'todolist/todolistReducer/SET_TASKS';
-const UPDATE_TODOLIST_TITLE = 'todolist/todolistReducer/UPDATE_TODOLIST_TITLE';
-
-
-// ACTION CREATORS__INTERFACE
-interface IAddTodolist {
-    type: typeof ADD_TODO;
-    newTodo: ITodo;
-}
-
-interface IAddTask {
-    type: typeof ADD_TASK;
-    todolistID: string;
-    newTask: ITask;
-}
-
-interface IChangeTask {
-    type: typeof CHANGE_TASK;
-    taskId: string;
-    obj: IChangeTaskObj;
-    todolistID: string;
-}
-
-interface IDeleteTodo {
-    type: typeof DELETE_TODO;
-    todolistID: string;
-}
-
-interface IDeleteTask {
-    type: typeof DELETE_TASK;
-    todolistID: string;
-    taskId: string;
-}
-
-interface ISetTodolits {
-    type: typeof SET_TODOLISTS;
-    todolists: ITodo[];
-}
-
-interface ISetTasks {
-    type: typeof SET_TASKS;
-    todolistID: string;
-    tasks: ITask[];
-}
-
-interface IUpdateTodolistTitle {
-    type: typeof UPDATE_TODOLIST_TITLE;
-    todoListID: string;
-    newTodolistTitle: string;
-}
-
-export type ITodolist = IAddTodolist | IAddTask | IChangeTask | IDeleteTodo | IDeleteTask | ISetTodolits |  ISetTasks | IUpdateTodolistTitle
+export const ADD_TODO = 'todolist/todolistReducer/ADD_TODO';
+export const ADD_TASK = 'todolist/todolistReducer/ADD_TASK';
+export const CHANGE_TASK = 'todolist/todolistReducer/CHANGE_TASK';
+export const DELETE_TODO = 'todolist/todolistReducer/DELETE_TODO';
+export const DELETE_TASK = 'todolist/todolistReducer/DELETE_TASK';
+export const SET_TODOLISTS = 'todolist/todolistReducer/SET_TODOLISTS';
+export const SET_TASKS = 'todolist/todolistReducer/SET_TASKS';
+export const UPDATE_TODOLIST_TITLE = 'todolist/todolistReducer/UPDATE_TODOLIST_TITLE';
 
 
 // ACTION CREATORS
-export const addTodolist = (newTodo: ITodo): IAddTodolist => ({type: ADD_TODO, newTodo});
-export const addTask = (todolistID: string, newTask: ITask): IAddTask => ({type: ADD_TASK, todolistID, newTask});
-export const changeTask = (taskId: string, obj: IChangeTaskObj, todolistID: string): IChangeTask => ({
+export const addTodolist = (newTodo: ITodo): ITodolist => ({type: ADD_TODO, newTodo});
+export const addTask = (todolistID: string, newTask: ITask): ITodolist => ({type: ADD_TASK, todolistID, newTask});
+export const changeTask = (taskId: string, obj: IChangeTaskObj, todolistID: string): ITodolist => ({
     type: CHANGE_TASK,
     taskId,
     obj,
     todolistID
 });
-export const deleteTodo = (todolistID: string): IDeleteTodo => ({type: DELETE_TODO, todolistID});
-export const deleteTask = (todolistID: string, taskId: string): IDeleteTask => ({
+export const deleteTodo = (todolistID: string): ITodolist => ({type: DELETE_TODO, todolistID});
+export const deleteTask = (todolistID: string, taskId: string): ITodolist => ({
     type: DELETE_TASK,
     todolistID,
     taskId
 });
-export const setTodolists = (todolists: ITodo[]): ISetTodolits => ({type: SET_TODOLISTS, todolists});
-export const setTasks = (todolistID: string, tasks: ITask[]): ISetTasks => ({type: SET_TASKS, todolistID, tasks});
-export const updateTodolistTitle = (todoListID: string, newTodolistTitle: string): IUpdateTodolistTitle => ({
+export const setTodolists = (todolists: ITodo[]): ITodolist => ({type: SET_TODOLISTS, todolists});
+export const setTasks = (todolistID: string, tasks: ITask[]): ITodolist => ({type: SET_TASKS, todolistID, tasks});
+export const updateTodolistTitle = (todoListID: string, newTodolistTitle: string): ITodolist => ({
     type: UPDATE_TODOLIST_TITLE,
     todoListID,
     newTodolistTitle
 });
+
+
+// THUNK CREATORS
+export const getTodo = () => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+    api.getTodolists()
+        .then((data: ITodo[]) => {
+            dispatch(setTodolists(data))
+        });
+};
+
+export const addTodo = (todolistTitle: string) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+    api.createTodolist(todolistTitle)
+        .then((item: ITodo) => {
+            dispatch(addTodolist(item))
+        })
+};
 
 
 // INITIAL STATE
@@ -96,7 +66,8 @@ const initialState: ITodolistState = {
 
 
 // REDUCER
-const todolistReducer = (state: ITodolistState = initialState, action: ITodolist) => {
+const todolistReducer = (state: ITodolistState = initialState, action: ITodolist): ITodolistState => {
+    debugger
     switch (action.type) {
         case ADD_TODO:
             return {
