@@ -1,10 +1,11 @@
 import React from 'react';
 import '../App.css';
+import {ITask} from "../entities/entities";
 const styles = require('./TodoListTask.module.css');
 // import styles from './TodoListTask.module.css';
 
 interface IProps {
-    task: any,
+    task: ITask,
     changeStatus: Function,
     changeTitle: Function,
     deleteTask: Function,
@@ -22,11 +23,11 @@ class TodoListTask extends React.Component<IProps, IState> {
         taskTitle: this.props.task.title
     };
 
-    onIsDoneChanged = (e) => {
+    onIsDoneChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.props.changeStatus(this.props.task.id, e.currentTarget.checked ? 2 : 0);
     };
 
-    onTitleChanged = (e) => {
+    onTitleChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({taskTitle: e.currentTarget.value})
     };
 

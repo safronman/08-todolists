@@ -1,9 +1,10 @@
 import React from 'react';
 import './App.css';
 import TodoListTask from "./TodoListTask/TodoListTask";
+import {ITask} from "./entities/entities";
 
 interface IProps {
-    tasks: any[],
+    tasks: ITask[],
     changeStatus: Function,
     changeTitle: Function,
     deleteTask: Function

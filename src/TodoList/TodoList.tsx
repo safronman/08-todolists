@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
     addTask,
@@ -14,6 +13,7 @@ import TodoListFooter from "../TodoListFooter";
 import TodoListTitle from "../TodoListTitle/TodoListTitle";
 import AddNewItemForm from "../AddNewItemForm/AddNewItemForm";
 import {connect} from "react-redux";
+import {IChangeTaskObj, ITask} from "../entities/entities";
 const styles = require('./Todolist.module.css');
 // import styles from "./Todolist.module.css";
 
@@ -26,9 +26,8 @@ interface IProps {
     deleteTask: Function,
     updateTodolistTitle: Function
     id: string,
-    tasks: any[],
+    tasks: ITask[],
     title: string
-
 }
 
 interface IState {
@@ -66,7 +65,7 @@ class TodoList extends React.Component<IProps, IState> {
         });
     };
 
-    changeStatus = (taskId: string, status: string) => {
+    changeStatus = (taskId: string, status: number) => {
         this.changeTask(taskId, {status})
     };
 
@@ -74,15 +73,15 @@ class TodoList extends React.Component<IProps, IState> {
         this.changeTask(taskId, {title: title})
     };
 
-    changeTask = (taskId: string, obj: any) => {
-        let changedTask = this.props.tasks.find(task => {
+    changeTask = (taskId: string, obj: IChangeTaskObj) => {
+        let changedTask = this.props.tasks.find((task: ITask) => {
             return task.id === taskId
         });
         let task = {...changedTask, ...obj};
 
         api.updateTask(task)
-            .then(res => {
-                if (res.data.resultCode === 0) {
+            .then((data: any) => {
+                if (data.resultCode === 0) {
                     this.props.changeTask(taskId, obj, this.props.id)
                 }
             })

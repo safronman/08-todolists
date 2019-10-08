@@ -5,26 +5,27 @@ import AddNewItemForm from "./AddNewItemForm/AddNewItemForm";
 import {connect} from "react-redux";
 import {addTodolist, setTodolists} from "./Redux/todolistReducer";
 import {api} from "./Api/api";
+import {ITodo} from "./entities/entities";
 
 interface IProps {
     setTodolists: Function,
     addTodolist: Function,
-    todolists: any[]
+    todolists: ITodo[]
 }
 
 class App extends React.Component<IProps> {
 
     componentDidMount() {
         api.getTodolists()
-            .then(res => {
-                this.props.setTodolists(res.data)
+            .then((data: ITodo[]) => {
+                this.props.setTodolists(data)
             });
     }
 
     addTodoList = (todolistTitle: string) => {
         api.createTodolist(todolistTitle)
-            .then(res => {
-                this.props.addTodolist(res.data.data.item)
+            .then((item: ITodo) => {
+                this.props.addTodolist(item)
             })
     };
 

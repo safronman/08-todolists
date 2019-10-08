@@ -32,14 +32,14 @@ class AddNewItemForm extends React.Component<IProps, IState> {
         }
     };
 
-    onTitleChanged = (e) => {
+    onTitleChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             error: false,
             title: e.currentTarget.value
         });
     };
 
-    onKeyPress = (e) => {
+    onKeyPress = (e: React.KeyboardEvent) => {
         if (e.key === "Enter") {
             this.onAddItemClick();
         }
