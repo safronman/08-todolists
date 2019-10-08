@@ -13,25 +13,25 @@ import TodoListFooter from "../TodoListFooter";
 import TodoListTitle from "../TodoListTitle/TodoListTitle";
 import AddNewItemForm from "../AddNewItemForm/AddNewItemForm";
 import {connect} from "react-redux";
-import {IChangeTaskObj, ITask} from "../entities/entities";
+import {IChangeTaskObj, ITask} from "../types/entities";
 const styles = require('./Todolist.module.css');
 // import styles from "./Todolist.module.css";
 
 
 interface IProps {
-    setTasks: Function,
-    addTask: Function,
-    changeTask: Function,
-    deleteTodo: Function,
-    deleteTask: Function,
-    updateTodolistTitle: Function
-    id: string,
-    tasks: ITask[],
-    title: string
+    setTasks: Function;
+    addTask: Function;
+    changeTask: Function;
+    deleteTodo: Function;
+    deleteTask: Function;
+    updateTodolistTitle: Function;
+    id: string;
+    tasks: ITask[];
+    title: string;
 }
 
 interface IState {
-    filterValue: string
+    filterValue: string;
 }
 
 

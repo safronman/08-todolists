@@ -2,13 +2,13 @@ import React from 'react';
 import '../src/App.css';
 
 interface IProps {
-    changeFilter: Function, 
-    filterValue: string
+    changeFilter: Function;
+    filterValue: string;
 
 }
 
 interface IState {
-    isHidden: boolean
+    isHidden: boolean;
 }
 
 class TodoListFooter extends React.Component<IProps, IState> {

@@ -1,19 +1,19 @@
 import React from 'react';
 import '../App.css';
-import {ITask} from "../entities/entities";
+import {ITask} from "../types/entities";
 const styles = require('./TodoListTask.module.css');
 // import styles from './TodoListTask.module.css';
 
 interface IProps {
-    task: ITask,
-    changeStatus: Function,
-    changeTitle: Function,
-    deleteTask: Function,
+    task: ITask;
+    changeStatus: Function;
+    changeTitle: Function;
+    deleteTask: Function;
 }
 
 interface IState {
-    editMode: boolean,
-    taskTitle: string
+    editMode: boolean;
+    taskTitle: string;
 }
 
 class TodoListTask extends React.Component<IProps, IState> {

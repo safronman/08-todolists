@@ -5,12 +5,12 @@ import AddNewItemForm from "./AddNewItemForm/AddNewItemForm";
 import {connect} from "react-redux";
 import {addTodolist, setTodolists} from "./Redux/todolistReducer";
 import {api} from "./Api/api";
-import {ITodo} from "./entities/entities";
+import {ITodo} from "./types/entities";
 
 interface IProps {
-    setTodolists: Function,
-    addTodolist: Function,
-    todolists: ITodo[]
+    setTodolists: Function;
+    addTodolist: Function;
+    todolists: ITodo[];
 }
 
 class App extends React.Component<IProps> {

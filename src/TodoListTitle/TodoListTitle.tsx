@@ -5,14 +5,14 @@ const styles = require('./TodoListTitle.module.css');
 
 
 interface IProps {
-    title: string,
-    id: string,
-    updateTodolistTitle: Function
+    title: string;
+    id: string;
+    updateTodolistTitle: Function;
 }
 
 interface IState {
-    editMode: boolean,
-    todolistTitle: string
+    editMode: boolean;
+    todolistTitle: string;
 }
 
 

@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
 import TodoListTask from "./TodoListTask/TodoListTask";
-import {ITask} from "./entities/entities";
+import {ITask} from "./types/entities";
 
 interface IProps {
-    tasks: ITask[],
-    changeStatus: Function,
-    changeTitle: Function,
-    deleteTask: Function
+    tasks: ITask[];
+    changeStatus: Function;
+    changeTitle: Function;
+    deleteTask: Function;
 }
 
 class TodoListTasks extends React.Component<IProps> {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {ITask} from "../entities/entities";
+import {ITask} from "../types/entities";
 
 const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.0/todo-lists",

@@ -4,12 +4,12 @@ const styles = require('./AddNewItemForm.module.css');
 // import styles from "./AddNewItemForm.module.css";
 
 interface IProps {
-    addItem: Function
+    addItem: Function;
 }
 
 interface IState {
-    error: boolean,
-    title: string
+    error: boolean;
+    title: string;
 }
 
 

@@ -1,4 +1,4 @@
-import {ITask, ITodo, IChangeTaskObj} from "../entities/entities";
+import {ITask, ITodo, IChangeTaskObj} from "../types/entities";
 
 // CONSTANTS
 const ADD_TODO = 'todolist/todolistReducer/ADD_TODO';
@@ -11,10 +11,10 @@ const SET_TASKS = 'todolist/todolistReducer/SET_TASKS';
 const UPDATE_TODOLIST_TITLE = 'todolist/todolistReducer/UPDATE_TODOLIST_TITLE';
 
 
-// ACTION CREATORS
+// ACTION CREATORS__INTERFACE
 interface IAddTodolist {
-    type: typeof ADD_TODO,
-    newTodo: ITodo
+    type: typeof ADD_TODO;
+    newTodo: ITodo;
 }
 
 interface IAddTask {
@@ -61,6 +61,7 @@ interface IUpdateTodolistTitle {
 export type ITodolist = IAddTodolist | IAddTask | IChangeTask | IDeleteTodo | IDeleteTask | ISetTodolits |  ISetTasks | IUpdateTodolistTitle
 
 
+// ACTION CREATORS
 export const addTodolist = (newTodo: ITodo): IAddTodolist => ({type: ADD_TODO, newTodo});
 export const addTask = (todolistID: string, newTask: ITask): IAddTask => ({type: ADD_TASK, todolistID, newTask});
 export const changeTask = (taskId: string, obj: IChangeTaskObj, todolistID: string): IChangeTask => ({
@@ -84,11 +85,9 @@ export const updateTodolistTitle = (todoListID: string, newTodolistTitle: string
 });
 
 
-
-
 // INITIAL STATE
 interface ITodolistState {
-    todolists: ITodo[]
+    todolists: ITodo[];
 }
 
 const initialState: ITodolistState = {
