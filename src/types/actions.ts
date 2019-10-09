@@ -1,4 +1,4 @@
-import {ITodo, ITask, IChangeTaskObj} from "./entities";
+import {ITodo, ITask} from "./entities";
 import {
     ADD_TASK,
     ADD_TODO,

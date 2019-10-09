@@ -21,8 +21,3 @@ export interface ITask {
     title: string;
     todoListId: string;
 }
-
-export interface IChangeTaskObj {
-    title?: string;
-    status?: number;
-}
