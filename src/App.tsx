@@ -3,7 +3,7 @@ import './App.css';
 import TodoList from "./TodoList/TodoList";
 import AddNewItemForm from "./AddNewItemForm/AddNewItemForm";
 import {connect} from "react-redux";
-import {addTodo, addTodolist, getTodo, setTodolists} from "./Redux/todolistReducer";
+import {addTodo, addTodoSuccess, getTodo, setTodolists} from "./Redux/todolistReducer";
 import {ITodo} from "./types/entities";
 import {AppState} from "./Redux/store";
 
@@ -50,5 +50,5 @@ const mapStateToProps = (state: AppState): LinkStateProp => {
 };
 
 
-export default connect(mapStateToProps, {addTodolist, setTodolists, getTodo, addTodo})(App);
+export default connect(mapStateToProps, {addTodolist: addTodoSuccess, setTodolists, getTodo, addTodo})(App);
 

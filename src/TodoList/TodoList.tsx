@@ -1,8 +1,8 @@
 import React from 'react';
 import {
-    addTask,
-    changeTask,
-    deleteTodo, deleteTodolist, delTask, getTasks,
+    creatTaskSuccess,
+    updateTaskSuccess,
+    deleteTodo, deleteTask, getTasks,
     creatTask, updateTodoTitle, updateTask
 } from "../Redux/todolistReducer";
 import '../App.css';
@@ -16,13 +16,14 @@ import styles from "./Todolist.module.css";
 
 
 interface IProps {
+    deleteTodo: Function;
+    deleteTask: Function;
+
+
     creatTask: Function;
     changeTask: Function;
-    deleteTodo: Function;
-    delTask: Function;
     updateTodoTitle: Function;
     getTasks: Function;
-    deleteTodolist: Function;
     updateTask: Function;
     id: string;
     tasks: ITask[];
@@ -76,11 +77,11 @@ class TodoList extends React.Component<IProps, IState> {
     };
 
     onDeleteTodo = () => {
-        this.props.deleteTodolist(this.props.id)
+        this.props.deleteTodo(this.props.id)
     };
 
     deleteTask = (taskId: string) => {
-        this.props.delTask(this.props.id, taskId)
+        this.props.deleteTask(this.props.id, taskId)
     };
 
     render = () => {
@@ -114,4 +115,4 @@ class TodoList extends React.Component<IProps, IState> {
 }
 
 export default connect(null,
-    {addTask, changeTask, deleteTodo, delTask, updateTodoTitle, getTasks, deleteTodolist, creatTask, updateTask})(TodoList);
+    {addTask: creatTaskSuccess, changeTask: updateTaskSuccess, deleteTodo, deleteTask, updateTodoTitle, getTasks, creatTask, updateTask})(TodoList);

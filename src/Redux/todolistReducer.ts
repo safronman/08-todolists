@@ -16,23 +16,23 @@ export const UPDATE_TODOLIST_TITLE = 'todolist/todolistReducer/UPDATE_TODOLIST_T
 
 
 // ACTION CREATORS
-export const addTodolist = (newTodo: ITodo): ITodolist => ({type: ADD_TODO, newTodo});
-export const addTask = (todolistID: string, newTask: ITask): ITodolist => ({type: ADD_TASK, todolistID, newTask});
-export const changeTask = (taskId: string, obj: IChangeTaskObj, todolistID: string): ITodolist => ({
+export const addTodoSuccess = (newTodo: ITodo): ITodolist => ({type: ADD_TODO, newTodo});
+export const creatTaskSuccess = (todolistID: string, newTask: ITask): ITodolist => ({type: ADD_TASK, todolistID, newTask});
+export const updateTaskSuccess = (taskId: string, obj: IChangeTaskObj, todolistID: string): ITodolist => ({
     type: CHANGE_TASK,
     taskId,
     obj,
     todolistID
 });
-export const deleteTodo = (todolistID: string): ITodolist => ({type: DELETE_TODO, todolistID});
-export const deleteTask = (todolistID: string, taskId: string): ITodolist => ({
+export const deleteTodoSuccess = (todolistID: string): ITodolist => ({type: DELETE_TODO, todolistID});
+export const deleteTaskSuccess = (todolistID: string, taskId: string): ITodolist => ({
     type: DELETE_TASK,
     todolistID,
     taskId
 });
 export const setTodolists = (todolists: ITodo[]): ITodolist => ({type: SET_TODOLISTS, todolists});
 export const setTasks = (todolistID: string, tasks: ITask[]): ITodolist => ({type: SET_TASKS, todolistID, tasks});
-export const updateTodolistTitle = (todoListID: string, newTodolistTitle: string): ITodolist => ({
+export const updateTodoTitleSuccess = (todoListID: string, newTodolistTitle: string): ITodolist => ({
     type: UPDATE_TODOLIST_TITLE,
     todoListID,
     newTodolistTitle
@@ -50,7 +50,7 @@ export const getTodo = () => (dispatch: Dispatch<AppActions>, getState: () => Ap
 export const addTodo = (todolistTitle: string) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
     api.createTodolist(todolistTitle)
         .then((item: ITodo) => {
-            dispatch(addTodolist(item))
+            dispatch(addTodoSuccess(item))
         })
 };
 
@@ -61,18 +61,18 @@ export const getTasks = (todolistId: string) => (dispatch: Dispatch<AppActions>,
         });
 };
 
-export const deleteTodolist = (todolistId: string) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+export const deleteTodo = (todolistId: string) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
     api.deleteTodolist(todolistId)
         .then(res => {
-            dispatch(deleteTodo(todolistId))
+            dispatch(deleteTodoSuccess(todolistId))
         });
 };
 
-export const delTask = (todolistId: string, taskId: string) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+export const deleteTask = (todolistId: string, taskId: string) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
     api.deleteTask(taskId)
         .then(res => {
             if (res.data.resultCode === 0) {
-                dispatch(deleteTask(todolistId, taskId))
+                dispatch(deleteTaskSuccess(todolistId, taskId))
             }
         })
 };
@@ -80,7 +80,7 @@ export const delTask = (todolistId: string, taskId: string) => (dispatch: Dispat
 export const creatTask = (newTaskTitle: string, todolistId: string) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
     api.createTask(newTaskTitle, todolistId)
         .then(res => {
-            dispatch(addTask(todolistId, res.data.data.item))
+            dispatch(creatTaskSuccess(todolistId, res.data.data.item))
         })
 };
 
@@ -88,7 +88,7 @@ export const updateTodoTitle = (todolistId: string, todoTitle: string) => (dispa
     api.updateTodolistTitle(todolistId, todoTitle)
         .then((res) => {
             if (res.data.resultCode === 0) {
-                dispatch(updateTodolistTitle(todolistId, todoTitle))
+                dispatch(updateTodoTitleSuccess(todolistId, todoTitle))
             }
         })
 };
@@ -97,7 +97,7 @@ export const updateTask = (task: ITask, taskId: string, obj: IChangeTaskObj, tod
     api.updateTask(task)
         .then((data: any) => {
             if (data.resultCode === 0) {
-                dispatch(changeTask(taskId, obj, todolistId))
+                dispatch(updateTaskSuccess(taskId, obj, todolistId))
             }
         })
 };

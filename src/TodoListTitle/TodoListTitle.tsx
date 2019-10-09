@@ -46,7 +46,7 @@ class TodoListTitle extends React.Component<IProps, IState> {
                               onClick={this.onTodolistTitleClick}>{this.state.todolistTitle}</h3>
                 }
             </div>
-        );
+        )
     }
 }
 
