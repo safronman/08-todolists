@@ -24,9 +24,7 @@ interface IAddTask {
 
 interface IChangeTask {
     type: typeof CHANGE_TASK;
-    taskId: string;
-    obj: IChangeTaskObj;
-    todolistID: string;
+    task: ITask;
 }
 
 interface IDeleteTodo {

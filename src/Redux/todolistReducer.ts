@@ -17,13 +17,12 @@ export const UPDATE_TODOLIST_TITLE = 'todolist/todolistReducer/UPDATE_TODOLIST_T
 
 // ACTION CREATORS
 export const addTodoSuccess = (newTodo: ITodo): ITodolist => ({type: ADD_TODO, newTodo});
-export const creatTaskSuccess = (todolistID: string, newTask: ITask): ITodolist => ({type: ADD_TASK, todolistID, newTask});
-export const updateTaskSuccess = (taskId: string, obj: IChangeTaskObj, todolistID: string): ITodolist => ({
-    type: CHANGE_TASK,
-    taskId,
-    obj,
-    todolistID
+export const creatTaskSuccess = (todolistID: string, newTask: ITask): ITodolist => ({
+    type: ADD_TASK,
+    todolistID,
+    newTask
 });
+export const updateTaskSuccess = (task: ITask): ITodolist => ({type: CHANGE_TASK, task});
 export const deleteTodoSuccess = (todolistID: string): ITodolist => ({type: DELETE_TODO, todolistID});
 export const deleteTaskSuccess = (todolistID: string, taskId: string): ITodolist => ({
     type: DELETE_TASK,
@@ -93,11 +92,11 @@ export const updateTodoTitle = (todolistId: string, todoTitle: string) => (dispa
         })
 };
 
-export const updateTask = (task: ITask, taskId: string, obj: IChangeTaskObj, todolistId: string) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+export const updateTask = (task: ITask) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
     api.updateTask(task)
         .then((data: any) => {
             if (data.resultCode === 0) {
-                dispatch(updateTaskSuccess(taskId, obj, todolistId))
+                dispatch(updateTaskSuccess(data.data.item))
             }
         })
 };
@@ -141,14 +140,17 @@ const todolistReducer = (state: ITodolistState = initialState, action: ITodolist
             return {
                 ...state,
                 todolists: state.todolists.map((item: ITodo) => {
-                    if (item.id === action.todolistID) {
+                    if (item.id === action.task.todoListId) {
                         return {
                             ...item,
-                            tasks: item.tasks.map((task: ITask) => {
-                                if (task.id === action.taskId) {
-                                    return {...task, ...action.obj}
+                            tasks: item.tasks.map((el: ITask) => {
+                                if (el.id === action.task.id) {
+                                    return {...el,
+                                        title: action.task.title,
+                                        status: action.task.status
+                                    }
                                 } else {
-                                    return task
+                                    return el
                                 }
                             })
                         }

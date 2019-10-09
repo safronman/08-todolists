@@ -18,10 +18,7 @@ import styles from "./Todolist.module.css";
 interface IProps {
     deleteTodo: Function;
     deleteTask: Function;
-
-
     creatTask: Function;
-    changeTask: Function;
     updateTodoTitle: Function;
     getTasks: Function;
     updateTask: Function;
@@ -73,7 +70,7 @@ class TodoList extends React.Component<IProps, IState> {
         });
         let task = {...changedTask, ...obj};
 
-        this.props.updateTask(task, taskId, obj, this.props.id)
+        this.props.updateTask(task)
     };
 
     onDeleteTodo = () => {
@@ -115,4 +112,4 @@ class TodoList extends React.Component<IProps, IState> {
 }
 
 export default connect(null,
-    {addTask: creatTaskSuccess, changeTask: updateTaskSuccess, deleteTodo, deleteTask, updateTodoTitle, getTasks, creatTask, updateTask})(TodoList);
+    {deleteTodo, deleteTask, updateTodoTitle, getTasks, creatTask, updateTask})(TodoList);
