@@ -1,11 +1,10 @@
 import React from 'react';
-import {api} from "../Api/api";
 import styles from "./TodoListTitle.module.css"
 
 interface IProps {
     title: string;
     id: string;
-    updateTodolistTitle: Function;
+    updateTodoTitle: Function;
 }
 
 interface IState {
@@ -30,12 +29,7 @@ class TodoListTitle extends React.Component<IProps, IState> {
 
     updateTodolistTitle = () => {
         this.setState({editMode: false});
-        api.updateTodolistTitle(this.props.id, this.state.todolistTitle)
-            .then((res) => {
-                if (res.data.resultCode === 0) {
-                    this.props.updateTodolistTitle(this.props.id, this.state.todolistTitle)
-                }
-            })
+        this.props.updateTodoTitle(this.props.id, this.state.todolistTitle)
     };
 
     render = () => {

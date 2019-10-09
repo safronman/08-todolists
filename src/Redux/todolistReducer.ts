@@ -2,7 +2,7 @@ import {ITask, ITodo, IChangeTaskObj} from "../types/entities";
 import {api} from "../Api/api";
 import {AppActions, ITodolist} from "../types/actions";
 import {Dispatch} from "redux";
-import { AppState } from "./store";
+import {AppState} from "./store";
 
 // CONSTANTS
 export const ADD_TODO = 'todolist/todolistReducer/ADD_TODO';
@@ -54,6 +54,54 @@ export const addTodo = (todolistTitle: string) => (dispatch: Dispatch<AppActions
         })
 };
 
+export const getTasks = (todolistId: string) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+    api.getTasks(todolistId)
+        .then(res => {
+            dispatch(setTasks(todolistId, res.data.items))
+        });
+};
+
+export const deleteTodolist = (todolistId: string) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+    api.deleteTodolist(todolistId)
+        .then(res => {
+            dispatch(deleteTodo(todolistId))
+        });
+};
+
+export const delTask = (todolistId: string, taskId: string) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+    api.deleteTask(taskId)
+        .then(res => {
+            if (res.data.resultCode === 0) {
+                dispatch(deleteTask(todolistId, taskId))
+            }
+        })
+};
+
+export const creatTask = (newTaskTitle: string, todolistId: string) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+    api.createTask(newTaskTitle, todolistId)
+        .then(res => {
+            dispatch(addTask(todolistId, res.data.data.item))
+        })
+};
+
+export const updateTodoTitle = (todolistId: string, todoTitle: string) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+    api.updateTodolistTitle(todolistId, todoTitle)
+        .then((res) => {
+            if (res.data.resultCode === 0) {
+                dispatch(updateTodolistTitle(todolistId, todoTitle))
+            }
+        })
+};
+
+export const updateTask = (task: ITask, taskId: string, obj: IChangeTaskObj, todolistId: string) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+    api.updateTask(task)
+        .then((data: any) => {
+            if (data.resultCode === 0) {
+                dispatch(changeTask(taskId, obj, todolistId))
+            }
+        })
+};
+
 
 // INITIAL STATE
 interface ITodolistState {
@@ -67,7 +115,6 @@ const initialState: ITodolistState = {
 
 // REDUCER
 const todolistReducer = (state: ITodolistState = initialState, action: ITodolist): ITodolistState => {
-    debugger
     switch (action.type) {
         case ADD_TODO:
             return {
