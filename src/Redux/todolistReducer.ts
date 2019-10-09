@@ -1,4 +1,4 @@
-import {ITask, ITodo, IChangeTaskObj} from "../types/entities";
+import {ITask, ITodo} from "../types/entities";
 import {api} from "../Api/api";
 import {AppActions, ITodolist} from "../types/actions";
 import {Dispatch} from "redux";
