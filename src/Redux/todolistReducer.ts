@@ -39,66 +39,52 @@ export const updateTodoTitleSuccess = (todoListID: string, newTodolistTitle: str
 
 
 // THUNK CREATORS
-export const getTodo = () => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
-    api.getTodolists()
-        .then((data: ITodo[]) => {
-            dispatch(setTodolists(data))
-        });
+export const getTodo = () => async (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+    let data = await api.getTodolists();
+    dispatch(setTodolists(data))
 };
 
-export const addTodo = (todolistTitle: string) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
-    api.createTodolist(todolistTitle)
-        .then((item: ITodo) => {
-            dispatch(addTodoSuccess(item))
-        })
+export const addTodo = (todolistTitle: string) => async (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+    let item = await api.createTodolist(todolistTitle);
+    dispatch(addTodoSuccess(item))
 };
 
-export const getTasks = (todolistId: string) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
-    api.getTasks(todolistId)
-        .then(res => {
-            dispatch(setTasks(todolistId, res.data.items))
-        });
+export const getTasks = (todolistId: string) => async (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+    let res = await api.getTasks(todolistId);
+    dispatch(setTasks(todolistId, res.data.items))
 };
 
-export const deleteTodo = (todolistId: string) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
-    api.deleteTodolist(todolistId)
-        .then(res => {
-            dispatch(deleteTodoSuccess(todolistId))
-        });
+export const deleteTodo = (todolistId: string) => async (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+    let res = await api.deleteTodolist(todolistId);
+    if (res.data.resultCode === 0) {
+        dispatch(deleteTodoSuccess(todolistId))
+    }
 };
 
-export const deleteTask = (todolistId: string, taskId: string) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
-    api.deleteTask(taskId)
-        .then(res => {
-            if (res.data.resultCode === 0) {
-                dispatch(deleteTaskSuccess(todolistId, taskId))
-            }
-        })
+export const deleteTask = (todolistId: string, taskId: string) => async (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+    let res = await api.deleteTask(taskId);
+    if (res.data.resultCode === 0) {
+        dispatch(deleteTaskSuccess(todolistId, taskId))
+    }
 };
 
-export const creatTask = (newTaskTitle: string, todolistId: string) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
-    api.createTask(newTaskTitle, todolistId)
-        .then(res => {
-            dispatch(creatTaskSuccess(todolistId, res.data.data.item))
-        })
+export const creatTask = (newTaskTitle: string, todolistId: string) => async (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+    let res = await api.createTask(newTaskTitle, todolistId);
+    dispatch(creatTaskSuccess(todolistId, res.data.data.item))
 };
 
-export const updateTodoTitle = (todolistId: string, todoTitle: string) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
-    api.updateTodolistTitle(todolistId, todoTitle)
-        .then((res) => {
-            if (res.data.resultCode === 0) {
-                dispatch(updateTodoTitleSuccess(todolistId, todoTitle))
-            }
-        })
+export const updateTodoTitle = (todolistId: string, todoTitle: string) => async (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+    let res = await api.updateTodolistTitle(todolistId, todoTitle);
+    if (res.data.resultCode === 0) {
+        dispatch(updateTodoTitleSuccess(todolistId, todoTitle))
+    }
 };
 
-export const updateTask = (task: ITask) => (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
-    api.updateTask(task)
-        .then((data: any) => {
-            if (data.resultCode === 0) {
-                dispatch(updateTaskSuccess(data.data.item))
-            }
-        })
+export const updateTask = (task: ITask) => async (dispatch: Dispatch<AppActions>, getState: () => AppState) => {
+    let data = await api.updateTask(task);
+    if (data.resultCode === 0) {
+        dispatch(updateTaskSuccess(data.data.item))
+    }
 };
 
 
@@ -145,7 +131,8 @@ const todolistReducer = (state: ITodolistState = initialState, action: ITodolist
                             ...item,
                             tasks: item.tasks.map((el: ITask) => {
                                 if (el.id === action.task.id) {
-                                    return {...el,
+                                    return {
+                                        ...el,
                                         title: action.task.title,
                                         status: action.task.status
                                     }
