@@ -1,7 +1,5 @@
 import React from 'react';
 import {
-    creatTaskSuccess,
-    updateTaskSuccess,
     deleteTodo, deleteTask, getTasks,
     creatTask, updateTodoTitle, updateTask
 } from "../Redux/todolistReducer";
