@@ -1,6 +1,15 @@
 import {ITask, ITodo} from "../types/entities";
 import {api} from "../Api/api";
-import {AppActions, ITodolist} from "../types/actions";
+import {
+    AppActions,
+    ITodolist,
+    IAddTodolist,
+    IAddTask,
+    IChangeTask,
+    IDeleteTodo,
+    IDeleteTask,
+    ISetTodolits, IUpdateTodolistTitle, ISetTasks
+} from "../types/actions";
 import {Dispatch} from "redux";
 import {AppState} from "./store";
 
@@ -16,22 +25,22 @@ export const UPDATE_TODOLIST_TITLE = 'todolist/todolistReducer/UPDATE_TODOLIST_T
 
 
 // ACTION CREATORS
-export const addTodoSuccess = (newTodo: ITodo): ITodolist => ({type: ADD_TODO, newTodo});
-export const creatTaskSuccess = (todolistID: string, newTask: ITask): ITodolist => ({
+export const addTodoSuccess = (newTodo: ITodo): IAddTodolist => ({type: ADD_TODO, newTodo});
+export const creatTaskSuccess = (todolistID: string, newTask: ITask): IAddTask => ({
     type: ADD_TASK,
     todolistID,
     newTask
 });
-export const updateTaskSuccess = (task: ITask): ITodolist => ({type: CHANGE_TASK, task});
-export const deleteTodoSuccess = (todolistID: string): ITodolist => ({type: DELETE_TODO, todolistID});
-export const deleteTaskSuccess = (todolistID: string, taskId: string): ITodolist => ({
+export const updateTaskSuccess = (task: ITask): IChangeTask => ({type: CHANGE_TASK, task});
+export const deleteTodoSuccess = (todolistID: string): IDeleteTodo => ({type: DELETE_TODO, todolistID});
+export const deleteTaskSuccess = (todolistID: string, taskId: string): IDeleteTask => ({
     type: DELETE_TASK,
     todolistID,
     taskId
 });
-export const setTodolists = (todolists: ITodo[]): ITodolist => ({type: SET_TODOLISTS, todolists});
-export const setTasks = (todolistID: string, tasks: ITask[]): ITodolist => ({type: SET_TASKS, todolistID, tasks});
-export const updateTodoTitleSuccess = (todoListID: string, newTodolistTitle: string): ITodolist => ({
+export const setTodolists = (todolists: ITodo[]): ISetTodolits => ({type: SET_TODOLISTS, todolists});
+export const setTasks = (todolistID: string, tasks: ITask[]): ISetTasks => ({type: SET_TASKS, todolistID, tasks});
+export const updateTodoTitleSuccess = (todoListID: string, newTodolistTitle: string): IUpdateTodolistTitle => ({
     type: UPDATE_TODOLIST_TITLE,
     todoListID,
     newTodolistTitle

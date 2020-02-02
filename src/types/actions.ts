@@ -11,45 +11,45 @@ import {
 
 
 // Interfaces for actions in todolistReducer: ITodolist
-interface IAddTodolist {
+export interface IAddTodolist {
     type: typeof ADD_TODO;
     newTodo: ITodo;
 }
 
-interface IAddTask {
+export interface IAddTask {
     type: typeof ADD_TASK;
     todolistID: string;
     newTask: ITask;
 }
 
-interface IChangeTask {
+export interface IChangeTask {
     type: typeof CHANGE_TASK;
     task: ITask;
 }
 
-interface IDeleteTodo {
+export interface IDeleteTodo {
     type: typeof DELETE_TODO;
     todolistID: string;
 }
 
-interface IDeleteTask {
+export interface IDeleteTask {
     type: typeof DELETE_TASK;
     todolistID: string;
     taskId: string;
 }
 
-interface ISetTodolits {
+export interface ISetTodolits {
     type: typeof SET_TODOLISTS;
     todolists: ITodo[];
 }
 
-interface ISetTasks {
+export interface ISetTasks {
     type: typeof SET_TASKS;
     todolistID: string;
     tasks: ITask[];
 }
 
-interface IUpdateTodolistTitle {
+export interface IUpdateTodolistTitle {
     type: typeof UPDATE_TODOLIST_TITLE;
     todoListID: string;
     newTodolistTitle: string;
