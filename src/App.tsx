@@ -8,12 +8,15 @@ import {ITodo} from "./types/entities";
 import {AppState} from "./Redux/store";
 
 interface IProps {
-    getTodo: Function;
-    addTodo: Function;
-    todolists: ITodo[];
+    getTodo: () => void;
+    addTodo: (todolistTitle: string) => void;
 }
 
-class App extends React.Component<IProps> {
+interface IMapStateProps {
+    todolists: ITodo[]
+}
+
+class App extends React.Component<IProps & IMapStateProps> {
 
     componentDidMount() {
         this.props.getTodo()
@@ -39,11 +42,8 @@ class App extends React.Component<IProps> {
     }
 }
 
-interface LinkStateProp {
-    todolists: ITodo[]
-}
 
-const mapStateToProps = (state: AppState): LinkStateProp => {
+const mapStateToProps = (state: AppState): IMapStateProps => {
     return {
         todolists: state.todolistReducer.todolists
     }

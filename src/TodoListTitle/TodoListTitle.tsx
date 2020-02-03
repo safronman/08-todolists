@@ -4,7 +4,7 @@ import styles from "./TodoListTitle.module.css"
 interface IProps {
     title: string;
     id: string;
-    updateTodoTitle: Function;
+    updateTodoTitle: (todolistId: string, todolistTitle: string) => void;
 }
 
 interface IState {
@@ -14,7 +14,7 @@ interface IState {
 
 class TodoListTitle extends React.Component<IProps, IState> {
 
-    state = {
+    state: IState = {
         editMode: false,
         todolistTitle: this.props.title
     };

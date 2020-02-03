@@ -14,25 +14,27 @@ import styles from "./Todolist.module.css";
 
 
 interface IProps {
-    deleteTodo: Function;
-    deleteTask: Function;
-    creatTask: Function;
-    updateTodoTitle: Function;
-    getTasks: Function;
-    updateTask: Function;
     id: string;
     tasks: ITask[];
     title: string;
+}
+
+interface IMapDispatchProps {
+    deleteTodo: (todolistId: string) => void;
+    deleteTask: (todolistId: string, taskId: string) => void;
+    creatTask: (taskTitle: string, todolistId: string) => void;
+    updateTodoTitle: (todolistId: string, todolistTitle: string) => void;
+    getTasks: (todolistId: string) => void;
+    updateTask: (task: any) => void;
 }
 
 interface IState {
     filterValue: string;
 }
 
+class TodoList extends React.Component<IProps & IMapDispatchProps, IState> {
 
-class TodoList extends React.Component<IProps, IState> {
-
-    state = {
+    state: IState = {
         filterValue: "All"
     };
 
@@ -59,11 +61,11 @@ class TodoList extends React.Component<IProps, IState> {
     };
 
     changeTitle = (taskId: string, title: string) => {
-        this.changeTask(taskId, {title: title})
+        this.changeTask(taskId, {title})
     };
 
     changeTask = (taskId: string, obj: IChangeTaskObj) => {
-        let changedTask = this.props.tasks.find((task: ITask) => {
+        let changedTask = this.props.tasks.find((task) => {
             return task.id === taskId
         });
         let task = {...changedTask, ...obj};
@@ -86,7 +88,8 @@ class TodoList extends React.Component<IProps, IState> {
             <div className={styles.todoList}>
                 <button className={styles.deleteButton} onClick={this.onDeleteTodo}>x</button>
                 <div className="todoList-header">
-                    <TodoListTitle title={this.props.title} id={this.props.id} updateTodoTitle={this.props.updateTodoTitle}/>
+                    <TodoListTitle title={this.props.title} id={this.props.id}
+                                   updateTodoTitle={this.props.updateTodoTitle}/>
                     <AddNewItemForm addItem={this.addTask}/>
                 </div>
                 <TodoListTasks changeStatus={this.changeStatus}
