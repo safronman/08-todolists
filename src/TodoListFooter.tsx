@@ -2,9 +2,8 @@ import React from 'react';
 import '../src/App.css';
 
 interface IProps {
-    changeFilter: Function;
+    changeFilter: (filterStatus: string)=> void;
     filterValue: string;
-
 }
 
 interface IState {
@@ -13,7 +12,7 @@ interface IState {
 
 class TodoListFooter extends React.Component<IProps, IState> {
 
-    state = {
+    state: IState = {
         isHidden: false
     };
 

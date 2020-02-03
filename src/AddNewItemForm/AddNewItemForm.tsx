@@ -3,7 +3,7 @@ import '../App.css';
 import styles from "./AddNewItemForm.module.css";
 
 interface IProps {
-    addItem: Function;
+    addItem: (newText: string) => void;
 }
 
 interface IState {
@@ -13,7 +13,7 @@ interface IState {
 
 
 class AddNewItemForm extends React.Component<IProps, IState> {
-    state = {
+    state: IState = {
         error: false,
         title: ""
     };

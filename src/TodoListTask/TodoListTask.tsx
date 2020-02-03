@@ -5,9 +5,9 @@ import styles from './TodoListTask.module.css';
 
 interface IProps {
     task: ITask;
-    changeStatus: Function;
-    changeTitle: Function;
-    deleteTask: Function;
+    changeStatus: (todolistId: string, checkedTaskStatus: number) => void;
+    changeTitle: (todolistId: string, taskTitle: string) => void;
+    deleteTask: (taskId: string) => void;
 }
 
 interface IState {
@@ -17,7 +17,7 @@ interface IState {
 
 class TodoListTask extends React.Component<IProps, IState> {
 
-    state = {
+    state: IState = {
         editMode: false,
         taskTitle: this.props.task.title
     };
@@ -53,7 +53,7 @@ class TodoListTask extends React.Component<IProps, IState> {
                     <input type="checkbox"
                            checked={this.props.task.status === 2}
                            onChange={this.onIsDoneChanged}
-                           />
+                    />
                     {this.state.editMode
                         ? <input onBlur={this.deactivateEditMode} onChange={this.onTitleChanged} autoFocus={true}
                                  value={this.state.taskTitle}/>
