@@ -1,5 +1,19 @@
 import axios from "axios";
-import {ITask} from "../types/entities";
+import {ITask, ITodo} from "../types/entities";
+
+interface IGetTasksResponse {
+    items: ITask[]
+    totalCount: number
+    error: string | null
+}
+
+interface ICreateTaskResponse {
+    data: {
+        item: ITask
+    }
+    messages: string[]
+    resultCode: number
+}
 
 const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.0/todo-lists",
@@ -9,22 +23,23 @@ const instance = axios.create({
 
 export const api = {
     createTask(newTaskTitle: string, todolistId: string) {
-        return instance.post(`${todolistId}/tasks`, {title: newTaskTitle})
+        return instance.post<ICreateTaskResponse>(`${todolistId}/tasks`, {title: newTaskTitle})
     },
     createTodolist(todolistTitle: string) {
         return instance.post("", {title: todolistTitle})
-            .then( res => {
+            .then(res => {
                 return res.data.data.item
             })
     },
-    getTodolists() {
-        return instance.get("")
+    getTodolists(): Promise<ITodo[]> {
+        return instance.get<ITodo[]>("")
             .then(res => {
                 return res.data
             })
     },
     getTasks(todolistId: string) {
-        return instance.get(`${todolistId}/tasks`)
+        return instance.get<IGetTasksResponse>(`${todolistId}/tasks`)
+
     },
     deleteTodolist(todolistId: string) {
         return instance.delete(`/${todolistId}`)
