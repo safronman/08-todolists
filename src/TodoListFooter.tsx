@@ -1,9 +1,18 @@
 import React from 'react';
 import '../src/App.css';
 
-class TodoListFooter extends React.Component {
+interface IProps {
+    changeFilter: (filterStatus: string)=> void;
+    filterValue: string;
+}
 
-    state = {
+interface IState {
+    isHidden: boolean;
+}
+
+class TodoListFooter extends React.Component<IProps, IState> {
+
+    state: IState = {
         isHidden: false
     };
 
@@ -13,7 +22,7 @@ class TodoListFooter extends React.Component {
     onShowFiltersClick = () => { this.setState({isHidden: true}) };
     onHideFiltersClick = () => { this.setState({isHidden: false}) };
 
-    render = (props) => {
+    render = () => {
 
         let classForAll = this.props.filterValue === "All" ? "filter-active" : "";
         let classForCompleted = this.props.filterValue === "Completed" ? "filter-active" : "";

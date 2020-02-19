@@ -1,19 +1,32 @@
 import React from 'react';
 import '../App.css';
+import {ITask} from "../types/entities";
 import styles from './TodoListTask.module.css';
 
-class TodoListTask extends React.Component {
+interface IProps {
+    task: ITask;
+    changeStatus: (todolistId: string, checkedTaskStatus: number) => void;
+    changeTitle: (todolistId: string, taskTitle: string) => void;
+    deleteTask: (taskId: string) => void;
+}
 
-    state = {
+interface IState {
+    editMode: boolean;
+    taskTitle: string;
+}
+
+class TodoListTask extends React.Component<IProps, IState> {
+
+    state: IState = {
         editMode: false,
         taskTitle: this.props.task.title
     };
 
-    onIsDoneChanged = (e) => {
+    onIsDoneChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.props.changeStatus(this.props.task.id, e.currentTarget.checked ? 2 : 0);
     };
 
-    onTitleChanged = (e) => {
+    onTitleChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({taskTitle: e.currentTarget.value})
     };
 
@@ -40,7 +53,7 @@ class TodoListTask extends React.Component {
                     <input type="checkbox"
                            checked={this.props.task.status === 2}
                            onChange={this.onIsDoneChanged}
-                           />
+                    />
                     {this.state.editMode
                         ? <input onBlur={this.deactivateEditMode} onChange={this.onTitleChanged} autoFocus={true}
                                  value={this.state.taskTitle}/>

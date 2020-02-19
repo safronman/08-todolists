@@ -3,23 +3,27 @@ import './App.css';
 import TodoList from "./TodoList/TodoList";
 import AddNewItemForm from "./AddNewItemForm/AddNewItemForm";
 import {connect} from "react-redux";
-import {addTodolist, setTodolists} from "./Redux/todolistReducer";
-import {api} from "./Api/api";
+import {addTodo, addTodoSuccess, getTodo, setTodolists} from "./Redux/todolistReducer";
+import {ITodo} from "./types/entities";
+import {AppState} from "./Redux/store";
 
-class App extends React.Component {
+interface IProps {
+    getTodo: () => void;
+    addTodo: (todolistTitle: string) => void;
+}
+
+interface IMapStateProps {
+    todolists: ITodo[]
+}
+
+class App extends React.Component<IProps & IMapStateProps> {
 
     componentDidMount() {
-        api.getTodolists()
-            .then(res => {
-                this.props.setTodolists(res.data)
-            });
+        this.props.getTodo()
     }
 
-    addTodoList = (todolistTitle) => {
-        api.createTodolist(todolistTitle)
-            .then(res => {
-                this.props.addTodolist(res.data.data.item)
-            })
+    addTodoList = (todolistTitle: string) => {
+        this.props.addTodo(todolistTitle)
     };
 
     render = () => {
@@ -38,12 +42,13 @@ class App extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
+
+const mapStateToProps = (state: AppState): IMapStateProps => {
     return {
-        todolists: state.todolists
+        todolists: state.todolistReducer.todolists
     }
 };
 
 
-export default connect(mapStateToProps, {addTodolist, setTodolists})(App);
+export default connect(mapStateToProps, {addTodolist: addTodoSuccess, setTodolists, getTodo, addTodo})(App);
 

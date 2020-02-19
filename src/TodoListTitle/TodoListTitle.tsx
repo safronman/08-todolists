@@ -1,10 +1,20 @@
 import React from 'react';
 import styles from "./TodoListTitle.module.css"
-import {api} from "../Api/api";
 
-class TodoListTitle extends React.Component {
+interface IProps {
+    title: string;
+    id: string;
+    updateTodoTitle: (todolistId: string, todolistTitle: string) => void;
+}
 
-    state = {
+interface IState {
+    editMode: boolean;
+    todolistTitle: string;
+}
+
+class TodoListTitle extends React.Component<IProps, IState> {
+
+    state: IState = {
         editMode: false,
         todolistTitle: this.props.title
     };
@@ -13,18 +23,13 @@ class TodoListTitle extends React.Component {
         this.setState({editMode: true})
     };
 
-    onTodolistTitleChange = (e) => {
+    onTodolistTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({todolistTitle: e.currentTarget.value})
     };
 
     updateTodolistTitle = () => {
         this.setState({editMode: false});
-        api.updateTodolistTitle(this.props.id, this.state.todolistTitle)
-            .then((res) => {
-                if (res.data.resultCode === 0 ) {
-                    this.props.updateTodolistTitle(this.props.id, this.state.todolistTitle)
-                }
-            })
+        this.props.updateTodoTitle(this.props.id, this.state.todolistTitle)
     };
 
     render = () => {
@@ -41,7 +46,7 @@ class TodoListTitle extends React.Component {
                               onClick={this.onTodolistTitleClick}>{this.state.todolistTitle}</h3>
                 }
             </div>
-        );
+        )
     }
 }
 

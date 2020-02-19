@@ -1,9 +1,19 @@
 import React from 'react';
 import '../App.css';
-import styles from "./AddNewItemForm.module.css"
+import styles from "./AddNewItemForm.module.css";
 
-class AddNewItemForm extends React.Component {
-    state = {
+interface IProps {
+    addItem: (newText: string) => void;
+}
+
+interface IState {
+    error: boolean;
+    title: string;
+}
+
+
+class AddNewItemForm extends React.Component<IProps, IState> {
+    state: IState = {
         error: false,
         title: ""
     };
@@ -21,14 +31,14 @@ class AddNewItemForm extends React.Component {
         }
     };
 
-    onTitleChanged = (e) => {
+    onTitleChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             error: false,
             title: e.currentTarget.value
         });
     };
 
-    onKeyPress = (e) => {
+    onKeyPress = (e: React.KeyboardEvent) => {
         if (e.key === "Enter") {
             this.onAddItemClick();
         }
